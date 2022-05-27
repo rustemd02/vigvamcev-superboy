@@ -2,36 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero : MonoBehaviour
+public class Hero : Entity
 {
+    [SerializeField] private LayerMask platformLayer;
     [SerializeField] private float speed = 3f;
     [SerializeField] private int hp = 5;
     [SerializeField] private float jumpForce = 1f;
 
     private Rigidbody2D rigidbody;
+    private BoxCollider2D boxCollider2d;
     private SpriteRenderer spriteRenderer;
-    private bool isOnGround = true;
+   
+
+    public static Hero Instance { get; set; }
     
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        boxCollider2d = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
-    private void FixedUpdate()
+
+    private void Awake()
     {
-        CheckGround();
+        Instance = this;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetButton("Horizontal"))
         {
             Run();
         }
-        if (isOnGround && Input.GetButton("Jump"))
+        if (isOnGround() && Input.GetButton("Jump"))
         {
             Jump();
+        }
+        if (Input.GetButton("Fire3"))
+        {
+            Fire();
         }
     }
 
@@ -47,9 +57,23 @@ public class Hero : MonoBehaviour
         rigidbody.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
     }
 
-    private void CheckGround()
+    private bool isOnGround()
     {
-        Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.3f);
-        isOnGround = collider.Length > 1;
+        RaycastHit2D raycast = Physics2D.Raycast(boxCollider2d.bounds.center, Vector2.down, boxCollider2d.bounds.extents.y + .1f, platformLayer);
+        
+        return raycast.collider != null;
+    }
+
+    private void Fire()
+    {
+
+    }
+
+    public override void GetDamage()
+    {
+        hp -= 1;
+        Debug.Log(hp);
     }
 }
+
+
