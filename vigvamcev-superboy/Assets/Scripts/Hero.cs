@@ -2,25 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AnimationStates
+{
+    idle,
+    run
+}
+
 public class Hero : Entity
 {
-    [SerializeField] private LayerMask platformLayer;
     [SerializeField] private float speed = 3f;
     [SerializeField] private int hp = 5;
-    [SerializeField] private float jumpForce = 1f;
+    [SerializeField] private float jumpForce = 10f;
 
-    private Rigidbody2D rigidbody;
-    private BoxCollider2D boxCollider2d;
-    private SpriteRenderer spriteRenderer;
    
-
     public static Hero Instance { get; set; }
-    
+
+    public AnimationStates State
+    {
+        get { return (AnimationStates)animator.GetInteger("stages"); }
+        set { animator.SetInteger("State", (int)value); }
+
+    }
+
+
     void Start()
     {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
         boxCollider2d = GetComponent<BoxCollider2D>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
 
@@ -31,22 +41,30 @@ public class Hero : Entity
 
     void FixedUpdate()
     {
+        if (IsOnGround())
+        {
+            State = AnimationStates.idle;
+        }
         if (Input.GetButton("Horizontal"))
         {
             Run();
         }
-        if (isOnGround() && Input.GetButton("Jump"))
+        if (IsOnGround() && Input.GetButton("Jump"))
         {
             Jump();
         }
         if (Input.GetButton("Fire3"))
         {
-            Fire();
+            Hit();
         }
     }
 
     private void Run()
     {
+        if (IsOnGround())
+        {
+            State = AnimationStates.run;
+        }
         Vector3 vector3 = transform.right * Input.GetAxis("Horizontal");
         transform.position = Vector3.MoveTowards(transform.position, transform.position + vector3, speed * Time.deltaTime);
         spriteRenderer.flipX = vector3.x < 0.0f;
@@ -57,14 +75,14 @@ public class Hero : Entity
         rigidbody.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
     }
 
-    private bool isOnGround()
+    private bool IsOnGround()
     {
         RaycastHit2D raycast = Physics2D.Raycast(boxCollider2d.bounds.center, Vector2.down, boxCollider2d.bounds.extents.y + .1f, platformLayer);
         
         return raycast.collider != null;
     }
 
-    private void Fire()
+    private void Hit()
     {
 
     }

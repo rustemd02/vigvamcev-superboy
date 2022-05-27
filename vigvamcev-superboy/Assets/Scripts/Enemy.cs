@@ -8,7 +8,10 @@ public class Enemy : Entity
     // Start is called before the first frame update
     void Start()
     {
-        
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        rigidbody = GetComponent<Rigidbody2D>();
+        boxCollider2d = GetComponent<BoxCollider2D>();
+        //animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame

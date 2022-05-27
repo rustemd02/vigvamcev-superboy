@@ -4,31 +4,50 @@ using UnityEngine;
 
 public class Scout : Entity
 {
-    private float speed = 3.5f;
+
+    private float speed = 0.5f;
     private Vector3 dir;
-    private SpriteRenderer sprite;
-    private bool isOnGround = true;
+    private bool movingRight = true;
+    public Transform groundDetector;
 
 
     private void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rigidbody = GetComponent<Rigidbody2D>();
+        boxCollider2d = GetComponent<BoxCollider2D>();
+        //animator = GetComponent<Animator>();
         dir = transform.right;
     }
+
 
     private void Update()
     {
         Move();
-        CheckGround();
     }
 
     private void Move()
     {
         //Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + transform.up * 0.1f + transform.right * dir.x * 0.7f, 0.1f);
-        if (isOnGround)
+        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        RaycastHit2D raycast = Physics2D.Raycast(groundDetector.position, Vector2.down, boxCollider2d.bounds.extents.y + 0.5f);
+
+        if (raycast.collider == false)
         {
-            dir *= -1f;
+            if (movingRight == true)
+            {
+                transform.eulerAngles = new Vector3(0, -180, 0);
+                movingRight = false;
+            }
+            else
+            { 
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                movingRight = true;
+            }
+
         }
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, Time.deltaTime);
+        
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -41,9 +60,15 @@ public class Scout : Entity
         
     }
 
-    private void CheckGround()
+    private bool IsOnGround()
     {
-        Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 5.0f);
-        isOnGround = collider.Length > 1;
+        RaycastHit2D raycast = Physics2D.Raycast(groundDetector.position, Vector2.down, boxCollider2d.bounds.extents.y + 0.5f);
+        if (raycast.collider == false)
+        {
+            Debug.DrawRay(groundDetector.position, Vector2.down, Color.red);
+            return false;
+        }
+        Debug.DrawRay(groundDetector.position, Vector2.down, Color.blue);
+        return true;
     }
 }
