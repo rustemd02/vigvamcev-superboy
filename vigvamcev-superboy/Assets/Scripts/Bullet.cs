@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
     {
         Physics2D.IgnoreLayerCollision(6, 8);
         Physics2D.IgnoreLayerCollision(7, 8);
+        Physics2D.IgnoreLayerCollision(6, 9);
 
         StartCoroutine(CountDownTimer());
     }
@@ -29,14 +30,10 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-        
-        
-
         if (collision.gameObject == Hero.Instance.gameObject)
         {
             Destroy(gameObject);
-            Hero.Instance.Die();
+            Hero.Instance.GetDamage();
         }
             
     }

@@ -11,7 +11,7 @@ public enum AnimationStates
 public class Hero : Entity
 {
     [SerializeField] private float speed = 3f;
-    [SerializeField] private int hp = 5;
+    public float hp = 5; 
     [SerializeField] private float jumpForce = 10f;
 
    
@@ -84,13 +84,27 @@ public class Hero : Entity
 
     private void Hit()
     {
-
+        
     }
 
     public override void Die()
     {
-        
+
+        GameOverScreen.Instance.isDead = true;
+
         Debug.Log("?????");
+    }
+
+    public override void GetDamage()
+    {
+        if (hp > 1)
+        {
+            hp--;
+        }
+        else
+        {
+            Die();
+        }
     }
 }
 
