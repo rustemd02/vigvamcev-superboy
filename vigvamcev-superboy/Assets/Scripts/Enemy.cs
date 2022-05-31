@@ -24,6 +24,7 @@ public class Enemy : Entity
     void Update()
     {
         TurnAround();
+        
     }
 
     void TurnAround()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,19 @@ using UnityEngine;
 public class Follower : Entity
 {
     public Transform player;
+    private float distance;
+    private float timeBetweenShots = 2;
+    public GameObject bullet;
     public Transform groundDetector;
-    private float speed = 3f;
+    private float walkSpeed = 3f;
+    private float shootSpeed = 400f;
+    private Vector3 direction;
+    private bool canShoot;
+    
 
     void Start()
     {
+        canShoot = true;
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
         boxCollider2d = GetComponent<BoxCollider2D>();
@@ -18,34 +27,60 @@ public class Follower : Entity
     // Update is called once per frame
     void Update()
     {
-        Move();
+        distance = Vector2.Distance(transform.position, player.position);
+        if (IsOnGround() && distance < 5)
+        {
+            if (canShoot)
+            StartCoroutine(Shoot());
+
+            Move();
+        } else
+        {
+            StopMoving();
+        }
+
+        
+    }
+
+    IEnumerator Shoot()
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(timeBetweenShots);
+        GameObject newBullet = Instantiate(bullet, groundDetector.position, Quaternion.identity);
+        if (direction.x < 0)
+        {
+            shootSpeed = -shootSpeed;
+            transform.eulerAngles = new Vector3(0, -180, 0);
+        } else
+        {
+            shootSpeed = Math.Abs(shootSpeed);
+            
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * Time.fixedDeltaTime, 0);
+        canShoot = true;
     }
 
     void Move()
     {
-        Vector3 direction = player.position - transform.position;
-        float distance = Vector2.Distance(transform.position, player.position);
-        if (IsOnGround() && distance < 2)
-        {
-            if (direction.x < 0)
+        direction = player.position - transform.position;
+        if (direction.x < 0)
             {
                 transform.eulerAngles = new Vector3(0, -180, 0);
-                rigidbody.velocity = new Vector2(-speed, 0);
+                    rigidbody.velocity = new Vector2(-walkSpeed, 0);
             }
             else
             {
                 transform.eulerAngles = new Vector3(0, 0, 0);
-                rigidbody.velocity = new Vector2(speed, 0);
+                rigidbody.velocity = new Vector2(walkSpeed, 0);
             }
 
-        }
-        else
-        {
-            rigidbody.velocity = new Vector2(0, 0);
-        }
 
-        //rigidbody.MovePosition(transform.position + (direction * speed * Time.deltaTime));
+    }
 
+    void StopMoving()
+    {
+        rigidbody.velocity = new Vector2(0, 0);
     }
 
     private bool IsOnGround()
