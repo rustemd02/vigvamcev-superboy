@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-
+using System.Linq;
 
 public class Menu : MonoBehaviour
 {
@@ -13,6 +13,8 @@ public class Menu : MonoBehaviour
   public AudioMixer audioMixer;
 
   public Dropdown resolutionDropdown;
+
+  public Dropdown qualityDropdown;
 
   Resolution[] resolutions;
 
@@ -40,6 +42,15 @@ public class Menu : MonoBehaviour
       resolutionDropdown.AddOptions(options);
       resolutionDropdown.value = currentResolutionIndex;
       resolutionDropdown.RefreshShownValue();
+
+      qualityDropdown.AddOptions(QualitySettings.names.ToList());
+      qualityDropdown.value = QualitySettings.GetQualityLevel();
+      
+  }
+
+  public void SetQuality() 
+  {
+    QualitySettings.SetQualityLevel(qualityDropdown.value);
   }
 
   public void SetResolution (int resolutionIndex)
@@ -69,5 +80,10 @@ public class Menu : MonoBehaviour
   {
    Screen.fullScreen = isFullscreen;
   }
+
+  // public void SetQuality(int qualityIndex)
+  // {
+  //   QualitySettings.SetQualityLevel(qualityIndex);
+  // }
 
 }
