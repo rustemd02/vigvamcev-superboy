@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 993106396666335464}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Scout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 993106397691240662}
   - component: {fileID: 993106397691240661}
   - component: {fileID: 993106397691240656}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Scouter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 993106398258313209}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}

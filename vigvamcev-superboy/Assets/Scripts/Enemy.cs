@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,11 @@ public class Enemy : Entity
 {
     [SerializeField] private int hp = 1;
     private float timer = 5;
-    private bool turnLeft = true;
+    public GameObject bullet;
+    public Transform groundDetector;
+    private float shootSpeed = 2000f;
     public TextMeshProUGUI timerText;
+    private bool canShoot;
 
     // Start is called before the first frame update
     void Start()
@@ -23,26 +27,18 @@ public class Enemy : Entity
     // Update is called once per frame
     void Update()
     {
-        TurnAround();
+        Timer();
         
     }
 
-    void TurnAround()
+    void Timer()
     {
         if (timer > 1)
         {
             timer -= Time.deltaTime;
         } else
         {
-            if (turnLeft)
-            {
-                transform.eulerAngles = new Vector3(0, -180, 0);
-                turnLeft = false;
-            } else
-            {
-                transform.eulerAngles = new Vector3(0, 0, 0);
-                turnLeft = true;
-            }
+            Shoot();
             timer += 5; 
         }
         DisplayTime(timer);
@@ -52,8 +48,19 @@ public class Enemy : Entity
     {
         float seconds = Mathf.FloorToInt(currentTimerValue % 60);
         timerText.text = string.Format("{0:0}", seconds);
+        
+    }
+    
+    void Shoot()
+    {
+        canShoot = false;
+        
+        GameObject newBullet = Instantiate(bullet, groundDetector.position, Quaternion.identity);
+        newBullet.transform.localScale += new Vector3(1, 1, 1);
+        newBullet.transform.eulerAngles = new Vector3(0, -180, 0);
 
-
+        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-shootSpeed * Time.fixedDeltaTime, 0);
+        canShoot = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

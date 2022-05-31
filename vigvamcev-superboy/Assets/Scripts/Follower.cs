@@ -49,7 +49,7 @@ public class Follower : Entity
         GameObject newBullet = Instantiate(bullet, groundDetector.position, Quaternion.identity);
         if (direction.x < 0)
         {
-            shootSpeed = -shootSpeed;
+            shootSpeed = -Math.Abs(shootSpeed);
             transform.eulerAngles = new Vector3(0, -180, 0);
         } else
         {

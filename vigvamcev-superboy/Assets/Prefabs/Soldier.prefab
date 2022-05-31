@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6210024524348542394}
   - component: {fileID: 6210024524348542395}
   - component: {fileID: 6210024524348542392}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6210024524530721051}
   - component: {fileID: 6210024524530721050}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Soldier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,8 +163,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -0.17168477}
   m_LocalScale: {x: 2.89, y: 2.89, z: 2.89}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 6210024525203706566}
+  m_Children: []
   m_Father: {fileID: 6210024525302843109}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -232,7 +231,7 @@ GameObject:
   - component: {fileID: 6210024525203706563}
   - component: {fileID: 6210024525203706560}
   - component: {fileID: 6210024525203706561}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,8 +251,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6210024524348542394}
-  m_Father: {fileID: 6210024524530721051}
-  m_RootOrder: 0
+  m_Father: {fileID: 6210024525302843109}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -333,7 +332,7 @@ GameObject:
   - component: {fileID: 6210024525302843114}
   - component: {fileID: 6210024525302843108}
   - component: {fileID: 6210024525302843111}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Soldier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -348,11 +347,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6210024525302843115}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.33, y: 0.49, z: 0.17168477}
+  m_LocalPosition: {x: 13.33, y: 0.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6210024524530721051}
+  - {fileID: 6210024525203706566}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -423,4 +423,6 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   animator: {fileID: 0}
   hp: 1
+  bullet: {fileID: 0}
+  groundDetector: {fileID: 0}
   timerText: {fileID: 6210024524348542392}
