@@ -27,7 +27,7 @@ public class Menu : MonoBehaviour
       int  currentResolutionIndex = 0;
       for (int i = 0; i< resolutions.Length; i++)
       {
-        string option = resolutions[i].width + " x " + "height";
+        string option = resolutions[i].width + " x " + resolutions[i].height;
         options.Add(option);
 
         if(resolutions[i].width==Screen.currentResolution.width
