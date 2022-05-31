@@ -87,10 +87,10 @@ public class Hero : Entity
 
     }
 
-    public override void GetDamage()
+    public override void Die()
     {
-        hp -= 1;
-        Debug.Log(hp);
+        
+        Debug.Log("?????");
     }
 }
 
