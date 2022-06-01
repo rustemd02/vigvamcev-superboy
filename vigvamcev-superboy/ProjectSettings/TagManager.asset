@@ -8,6 +8,7 @@ TagManager:
   - AttackingTeam
   - Feet
   - Ground
+  - Head
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Enemy
   - Bullet
   - SniperBullet
-  - 
+  - Player
   - 
   - 
   - 

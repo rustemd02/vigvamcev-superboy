@@ -18,6 +18,7 @@ public class Follower : Entity
 
     void Start()
     {
+        transform.eulerAngles = new Vector3(0, -180, 0);
         canShoot = true;
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
@@ -28,18 +29,28 @@ public class Follower : Entity
     void Update()
     {
         distance = Vector2.Distance(transform.position, player.position);
-        if (IsOnGround() && distance < 5)
+        
+        if (IsOnGround() && distance < 3.5)
         {
-            if (canShoot)
-            StartCoroutine(Shoot());
-
             Move();
+            if (canShoot && PlayerVisible() )
+            {
+                StartCoroutine(Shoot());
+            }
+            
         } else
         {
             StopMoving();
         }
 
         
+    }
+
+    bool PlayerVisible()
+    {
+        RaycastHit2D raycast = Physics2D.Raycast(groundDetector.position, direction.x < 0 ? Vector2.left : Vector2.right, 1000000);
+
+        return raycast.collider.CompareTag("Player");
     }
 
     IEnumerator Shoot()
@@ -50,12 +61,12 @@ public class Follower : Entity
         if (direction.x < 0)
         {
             shootSpeed = -Math.Abs(shootSpeed);
-            transform.eulerAngles = new Vector3(0, -180, 0);
+            transform.eulerAngles = new Vector3(0, 0, 0);
         } else
         {
             shootSpeed = Math.Abs(shootSpeed);
             
-            transform.eulerAngles = new Vector3(0, 0, 0);
+            transform.eulerAngles = new Vector3(0, -180, 0);
         }
         newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * Time.fixedDeltaTime, 0);
         canShoot = true;
@@ -65,15 +76,14 @@ public class Follower : Entity
     {
         direction = player.position - transform.position;
         if (direction.x < 0)
-            {
+        {
                 transform.eulerAngles = new Vector3(0, -180, 0);
-                    rigidbody.velocity = new Vector2(-walkSpeed, 0);
-            }
-            else
-            {
+                    rigidbody.velocity = new Vector2(-walkSpeed, 0); 
+        } else
+        {
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 rigidbody.velocity = new Vector2(walkSpeed, 0);
-            }
+        }
 
 
     }

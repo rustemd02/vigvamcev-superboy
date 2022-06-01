@@ -13,6 +13,7 @@ public class Hero : Entity
     [SerializeField] private float speed = 3f;
     public float hp = 5; 
     [SerializeField] private float jumpForce = 10f;
+    public Transform stomper;
 
    
     public static Hero Instance { get; set; }

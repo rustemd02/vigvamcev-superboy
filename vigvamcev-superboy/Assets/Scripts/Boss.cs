@@ -7,13 +7,14 @@ using TMPro;
 
 public class Boss : Entity
 {
-    [SerializeField] private int hp = 1;
+    public int hp = 1;
     private float timer = 5;
     public GameObject sniperBullet;
-    public Transform groundDetector;
-    private float shootSpeed = 2000f;
+    public Transform bulletSpawner, groundDetector, placeholder;
+    private float shootSpeed = 600f;
+    [SerializeField] private Transform player;
     public TextMeshProUGUI timerText;
-    private bool canShoot;
+    private bool isChanged = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,15 +22,36 @@ public class Boss : Entity
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
         boxCollider2d = GetComponent<BoxCollider2D>();
+        placeholder = bulletSpawner;
         //animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Timer();
+        //Timer();
+        
+       ChangeBulletSource();
     }
 
+    void ChangeBulletSource()
+    {
+        float distance = Vector2.Distance(transform.position, player.position);
+        if (distance < 10)
+        {
+            if (!isChanged)
+            {
+                placeholder = groundDetector;
+                isChanged = true;
+            }
+        }
+        else
+        {
+            placeholder = bulletSpawner;
+            isChanged = false;
+        }
+        
+    }
     void Timer()
     {
         if (timer > 1)
@@ -52,14 +74,12 @@ public class Boss : Entity
     
     void Shoot()
     {
-        canShoot = false;
         
-        GameObject newBullet = Instantiate(sniperBullet, groundDetector.position, Quaternion.identity);
+        GameObject newBullet = Instantiate(sniperBullet, placeholder.position, Quaternion.identity);
         newBullet.transform.localScale += new Vector3(1, 1, 1);
         newBullet.transform.eulerAngles = new Vector3(0, -180, 0);
 
         newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-shootSpeed * Time.fixedDeltaTime, 0);
-        canShoot = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

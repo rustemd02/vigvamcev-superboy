@@ -9,8 +9,9 @@ public class Bullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Physics2D.IgnoreLayerCollision(6, 8);
+        
         Physics2D.IgnoreLayerCollision(7, 8);
+        Physics2D.IgnoreLayerCollision(7, 9);
         Physics2D.IgnoreLayerCollision(6, 9);
 
         StartCoroutine(CountDownTimer());
