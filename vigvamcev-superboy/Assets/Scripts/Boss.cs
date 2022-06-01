@@ -8,13 +8,13 @@ using TMPro;
 public class Boss : Entity
 {
     public int hp = 1;
-    private float timer = 5;
+    
     public GameObject sniperBullet;
     public Transform bulletSpawner, groundDetector, placeholder;
     private float shootSpeed = 600f;
     [SerializeField] private Transform player;
-    public TextMeshProUGUI timerText;
-    private bool isChanged = false;
+    
+    public bool isChanged = false;
 
     // Start is called before the first frame update
     void Start()
@@ -29,9 +29,9 @@ public class Boss : Entity
     // Update is called once per frame
     void Update()
     {
-        //Timer();
         
-       ChangeBulletSource();
+
+        ChangeBulletSource();
     }
 
     void ChangeBulletSource()
@@ -52,27 +52,8 @@ public class Boss : Entity
         }
         
     }
-    void Timer()
-    {
-        if (timer > 1)
-        {
-            timer -= Time.deltaTime;
-        } else
-        {
-            Shoot();
-            timer += 5; 
-        }
-        DisplayTime(timer);
-    }
 
-    void DisplayTime(float currentTimerValue)
-    {
-        float seconds = Mathf.FloorToInt(currentTimerValue % 60);
-        timerText.text = string.Format("{0:0}", seconds);
-        
-    }
-    
-    void Shoot()
+    public void Shoot()
     {
         
         GameObject newBullet = Instantiate(sniperBullet, placeholder.position, Quaternion.identity);

@@ -10,7 +10,7 @@ public enum AnimationStates
 
 public class Hero : Entity
 {
-    [SerializeField] private float speed = 3f;
+    [SerializeField] private float speed = 5f;
     public float hp = 5; 
     [SerializeField] private float jumpForce = 10f;
     public Transform stomper;
