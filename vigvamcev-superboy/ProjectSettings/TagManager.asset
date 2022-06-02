@@ -8,6 +8,9 @@ TagManager:
   - AttackingTeam
   - Feet
   - Ground
+  - Head
+  - Trigger1
+  - Trigger2
   layers:
   - Default
   - TransparentFX
@@ -16,11 +19,11 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - Bullet
+  - SniperBullet
+  - Player
+  - Trigger
   - 
   - 
   - 
@@ -44,4 +47,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 129817165
     locked: 0
