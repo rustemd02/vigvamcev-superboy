@@ -44,7 +44,7 @@ public class TutorialTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && gameObject.CompareTag("Trigger1") && !isTriggered)
         {
-            Time.timeScale = 0.2f;
+            Time.timeScale = 0.08f;
         }
         else if (gameObject.CompareTag("Trigger2"))
         {

@@ -14,8 +14,8 @@ public class Hero : Entity
     public float hp = 5; 
     [SerializeField] private float jumpForce = 10f;
     public Transform stomper;
-
-   
+    
+    
     public static Hero Instance { get; set; }
 
     public AnimationStates State
@@ -58,6 +58,11 @@ public class Hero : Entity
         {
             Hit();
         }
+
+        if (transform.position.y < -3)
+        {
+            Die();
+        }
     }
 
     private void Run()
@@ -67,7 +72,8 @@ public class Hero : Entity
             State = AnimationStates.run;
         }
         Vector3 vector3 = transform.right * Input.GetAxis("Horizontal");
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + vector3, speed * Time.deltaTime);
+        var position = transform.position;
+        transform.position = Vector3.MoveTowards(position, position + vector3, speed * Time.deltaTime);
         spriteRenderer.flipX = vector3.x < 0.0f;
     }
 
@@ -78,7 +84,8 @@ public class Hero : Entity
 
     private bool IsOnGround()
     {
-        RaycastHit2D raycast = Physics2D.Raycast(boxCollider2d.bounds.center, Vector2.down, boxCollider2d.bounds.extents.y + .1f, platformLayer);
+        var boxCollider = boxCollider2d.bounds;
+        RaycastHit2D raycast = Physics2D.Raycast(boxCollider.center, Vector2.down, boxCollider.extents.y + .1f, platformLayer);
         
         return raycast.collider != null;
     }
@@ -90,10 +97,8 @@ public class Hero : Entity
 
     public override void Die()
     {
-
         GameOverScreen.Instance.isDead = true;
 
-        Debug.Log("?????");
     }
 
     public override void GetDamage()

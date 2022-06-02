@@ -28,19 +28,20 @@ public class Scout : Entity
 
     private void Move()
     {
-        //Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + transform.up * 0.1f + transform.right * dir.x * 0.7f, 0.1f);
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        transform.Translate(Vector2.right * (speed * Time.deltaTime));
         RaycastHit2D raycast = Physics2D.Raycast(groundDetector.position, Vector2.down, boxCollider2d.bounds.extents.y + 0.5f);
 
         if (raycast.collider == false)
         {
-            if (movingRight == true)
+            if (movingRight)
             {
+                
                 transform.eulerAngles = new Vector3(0, -180, 0);
                 movingRight = false;
             }
             else
             { 
+                
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 movingRight = true;
             }
